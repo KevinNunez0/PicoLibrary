@@ -79,6 +79,55 @@ class SevenSegmentDisplay(Display):
         
         self._tm.scroll(text, speed)
 
+    def scroll(self, text, speed=250):
+        """
+        Scroll a longer text - note that this will use a sleep call to pause between movements.
+        """
+        self._tm.scroll(text, speed)
+
+    def turnOnSegment(self, segment_index):
+        """
+        Turn on the LED segment at the specified index (0-7).
+        """
+        self._tm.set_segments([0x01 << segment_index])
+
+    def turnOffSegment(self, segment_index):
+        """
+        Turn off the LED segment at the specified index (0-7).
+        """
+        self._tm.set_segments([0x00])
+
+class SingleDigitDisplay(Display):
+    """
+    Single Digit Seven Segment Display class - implements a single-digit seven segment display
+    Decimal point not supported
+    """
+
+    def __init__(self, clk, dio):
+        self._tm = tm1637.TM1637(clk=Pin(clk), dio=Pin(dio))
+
+    def reset(self):
+        """ Clear the display screen """
+        self._tm.write([0])
+
+    def showNumber(self, number):
+        """ Show a single number """
+        self._tm.number(number)
+
+    def turnOnSegment(self, segment_index):
+        """
+        Turn on the LED segment at the specified index (0-7).
+        """
+        self._tm.set_segments([0x01 << segment_index])
+
+    def turnOffSegment(self, segment_index):
+        """
+        Turn off the LED segment at the specified index (0-7).
+        """
+        self._tm.set_segments([0x00])
+
+
+
 class SevenSegmentDisplayRaw(Display):
     """
     A Raw 7 segment display that uses RPi PIO along with internal StateMachine
@@ -142,7 +191,7 @@ class LCDDisplay(Display):
     
     """
     
-    def __init__(self, rs=5, e=4, d4=3, d5=2, d6=1, d7=0, *, sda=-1, scl=-1, i2cid=0):
+    def __init__(self, rs=0, e=27, d4=6, d5=17, d6=16, d7=15, *, sda=0, scl=1, i2cid=0):
         """
         Combined constructor for the direct-driven displays
         explicitly pass in the sda and scl if you need to use I2C
