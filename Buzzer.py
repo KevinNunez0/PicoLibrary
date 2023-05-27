@@ -7,7 +7,7 @@ import time
 from machine import Pin, PWM
 
 class Buzzer:
-    """
+    """"
     A simple buzzer class - use it to play and pause different sounds
     ranging from fequencies 10 through 10000
     default volume is half volume - set it between 0 and 10
