@@ -1,6 +1,6 @@
 """
 # Model.py
-# A State model implementation
+# A State model  implementation
 # Author: Arijit Sengupta
 """
 
